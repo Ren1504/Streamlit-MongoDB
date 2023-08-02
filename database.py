@@ -21,4 +21,24 @@ class mongo_connection(ExperimentalBaseConnection[pymongo.MongoClient]):
 
     def list_collection(self):
         db = self._instance[self.database]
+
         return db.list_collection_names()
+    
+    def current_collection(self, collection_name):
+        db = self._instance[self.database]
+        self.collection = collection_name
+
+        return db[collection_name]
+    
+    def find(self):
+        collection = self.current_collection(self.collection)
+        return collection.find()
+
+    def insert(self,record):
+        collection = self.current_collection(self.collection)
+        collection.insert_one(record)
+    
+    # def insert_many(self,records):
+    #     collections = self.current_collection(self.collection)
+    #     collections.insert_many(records)
+
