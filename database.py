@@ -19,6 +19,11 @@ class mongo_connection(ExperimentalBaseConnection[pymongo.MongoClient]):
 
         return client
 
+    def add_collection(self,collection_name):
+        db = self._instance[self.database]
+        self.collection = collection_name
+        return db[collection_name]
+
     def list_collection(self):
         db = self._instance[self.database]
 
